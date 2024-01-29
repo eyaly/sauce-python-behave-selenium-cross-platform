@@ -19,20 +19,17 @@ steps:
     versionSpec: '$(python.version)'
   displayName: 'Use Python $(python.version)'
 
-#- script: |
-#    python -m pip install --upgrade pip
-#    pip install -r requirements.txt
-#  displayName: 'Install dependencies'
-#
-#- script: |
-#    pip install pytest pytest-azurepipelines
-#    pytest
-#  displayName: 'pytest'
-
 - script: |
     pip install selenium==4.15.2
     pip install Appium-Python-Client==3.1.0
   displayName: 'Install Selenium and Appium'
+
+- script: |
+    curl https://saucelabs.com/downloads/sc-4.9.2-linux.tar.gz | tar -xz
+    chmod 777 -R ./sc-4.9.2-linux
+    PATH=./sc-4.9.2-linux/bin:$PATH
+    sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY  --region eu-central -i "rdc-on-sauce-tunnel-eu" -v -s &
+  displayName: 'Download and Install Sauce Connect'
 
 - script: |
     python3 ./testcases/myTest.py
