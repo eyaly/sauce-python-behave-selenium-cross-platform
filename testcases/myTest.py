@@ -1,6 +1,7 @@
 
 # pip install selenium==4.15.2
 # pip install behave
+# pip install Appium-Python-Client
 import time
 import os
 from selenium import webdriver
